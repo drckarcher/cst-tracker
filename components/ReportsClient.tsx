@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, parseISO } from 'date-fns'
+import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, parseISO, differenceInWeeks } from 'date-fns'
 import { CalendarIcon, Download } from 'lucide-react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
@@ -138,12 +138,36 @@ async function exportPDF(
   doc.save(`tasks_${format(startDate, 'yyyy-MM-dd')}_${format(endDate, 'yyyy-MM-dd')}.pdf`)
 }
 
+function computeWeeklyAverage(allTasks: { task_date: string; duration_minutes: number }[]): number | null {
+  if (allTasks.length === 0) return null
+  const firstDate = parseISO(allTasks[0].task_date)
+  const firstMonday = startOfWeek(firstDate, { weekStartsOn: 1 })
+  const thisMonday = startOfWeek(new Date(), { weekStartsOn: 1 })
+  const numWeeks = Math.max(1, differenceInWeeks(thisMonday, firstMonday) + 1)
+  const totalMinutes = allTasks.reduce((s, t) => s + t.duration_minutes, 0)
+  return totalMinutes / numWeeks / 60
+}
+
 export default function ReportsClient() {
   const [startDate, setStartDate] = useState<Date>(startOfMonth(new Date()))
   const [endDate, setEndDate] = useState<Date>(endOfMonth(new Date()))
   const [viewMode, setViewMode] = useState<ViewMode>('weekly')
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(false)
+  const [weeklyAvg, setWeeklyAvg] = useState<number | null>(null)
+
+  // Fetch lifetime stats once on mount
+  useEffect(() => {
+    async function fetchLifetime() {
+      const supabase = createClient()
+      const { data } = await supabase
+        .from('tasks')
+        .select('task_date, duration_minutes')
+        .order('task_date', { ascending: true })
+      if (data) setWeeklyAvg(computeWeeklyAverage(data))
+    }
+    fetchLifetime()
+  }, [])
 
   const fetchTasks = useCallback(async () => {
     setLoading(true)
@@ -166,6 +190,16 @@ export default function ReportsClient() {
 
   return (
     <div className="space-y-6">
+      {/* Lifetime average — always visible */}
+      {weeklyAvg !== null && (
+        <Card className="border-blue-200 bg-blue-50">
+          <CardContent className="pt-4 pb-4">
+            <p className="text-xs text-blue-600 uppercase tracking-wide font-medium">Avg per week (all time, Mon–Sun)</p>
+            <p className="text-3xl font-bold text-blue-700 mt-1">{weeklyAvg.toFixed(1)}h</p>
+          </CardContent>
+        </Card>
+      )}
+
       <div className="flex flex-wrap items-end gap-3">
         <div className="space-y-1">
           <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">From</p>

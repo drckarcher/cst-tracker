@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useFormStatus } from 'react-dom'
 import { format } from 'date-fns'
 import { CalendarIcon, ChevronUp, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
@@ -25,6 +26,23 @@ function parseStartTime(t: string | null | undefined): { hour: number; minute: n
   if (!t) return { hour: 8, minute: 0 }
   const [h, m] = t.split(':').map(Number)
   return { hour: h, minute: m }
+}
+
+function SubmitButton({ label }: { label: string }) {
+  const { pending } = useFormStatus()
+  return (
+    <Button type="submit" className="flex-1 h-12 text-base" disabled={pending}>
+      {pending ? (
+        <span className="flex items-center gap-2">
+          <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+          </svg>
+          Saving…
+        </span>
+      ) : label}
+    </Button>
+  )
 }
 
 function Stepper({
@@ -182,9 +200,7 @@ export default function TaskForm({ task, action }: TaskFormProps) {
       </div>
 
       <div className="flex gap-3 pt-2">
-        <Button type="submit" className="flex-1 h-12 text-base">
-          {task ? 'Update Task' : 'Save Task'}
-        </Button>
+        <SubmitButton label={task ? 'Update Task' : 'Save Task'} />
         <Link href="/tasks" className={cn(buttonVariants({ variant: 'outline' }), 'h-12 text-base px-6')}>
           Cancel
         </Link>

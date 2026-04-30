@@ -16,6 +16,7 @@ export async function createTask(formData: FormData) {
     project_name: (formData.get('project_name') as string) || null,
     description: (formData.get('description') as string) || null,
     task_date: formData.get('task_date') as string,
+    start_time: (formData.get('start_time') as string) || null,
     duration_minutes: parseInt(formData.get('duration_minutes') as string),
   })
   if (error) throw new Error(error.message)
@@ -33,6 +34,7 @@ export async function updateTask(id: string, formData: FormData) {
     project_name: (formData.get('project_name') as string) || null,
     description: (formData.get('description') as string) || null,
     task_date: formData.get('task_date') as string,
+    start_time: (formData.get('start_time') as string) || null,
     duration_minutes: parseInt(formData.get('duration_minutes') as string),
     updated_at: new Date().toISOString(),
   }).eq('id', id).eq('user_id', user.id)

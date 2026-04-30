@@ -18,6 +18,7 @@ export interface Task {
   project_name: string | null
   description: string | null
   task_date: string
+  start_time: string | null
   duration_minutes: number
   created_at: string
   updated_at: string

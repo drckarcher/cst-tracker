@@ -13,3 +13,11 @@ export function getDurationOptions() {
   }
   return options
 }
+
+export function computeEndTime(startTime: string, durationMinutes: number): string {
+  const [h, m] = startTime.split(':').map(Number)
+  const total = h * 60 + m + durationMinutes
+  const endH = Math.floor(total / 60) % 24
+  const endM = total % 60
+  return `${String(endH).padStart(2, '0')}:${String(endM).padStart(2, '0')}`
+}

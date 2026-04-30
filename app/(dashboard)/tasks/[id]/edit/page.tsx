@@ -1,7 +1,6 @@
 import { notFound, redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { updateTask } from '@/app/actions'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import TaskForm from '@/components/TaskForm'
 import type { Task } from '@/lib/types'
 
@@ -23,15 +22,9 @@ export default async function EditTaskPage({ params }: { params: Promise<{ id: s
   const boundAction = updateTask.bind(null, id)
 
   return (
-    <div className="max-w-xl">
-      <Card>
-        <CardHeader>
-          <CardTitle>Edit Task</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <TaskForm task={task as Task} action={boundAction} />
-        </CardContent>
-      </Card>
+    <div>
+      <h1 className="text-[28px] font-bold text-gray-900 pt-1 mb-6">Edit Task</h1>
+      <TaskForm task={task as Task} action={boundAction} />
     </div>
   )
 }

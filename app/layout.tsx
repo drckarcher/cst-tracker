@@ -1,21 +1,16 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
 import "./globals.css";
-
-const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "CST Work Tracker",
   description: "Non-clinical task tracker",
-  icons: {
-    apple: '/apple-touch-icon.png',
-  },
+  icons: { apple: '/apple-touch-icon.png' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geist.variable} h-full antialiased`}>
-      <body className="min-h-full bg-gray-50">{children}</body>
+    <html lang="en" className="h-full">
+      <body className="min-h-full">{children}</body>
     </html>
   );
 }

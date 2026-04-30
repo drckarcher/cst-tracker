@@ -2,9 +2,9 @@
 
 import { useTransition } from 'react'
 import { deleteTask } from '@/app/actions'
-import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
-export default function DeleteTaskButton({ id }: { id: string }) {
+export default function DeleteTaskButton({ id, className }: { id: string; className?: string }) {
   const [pending, startTransition] = useTransition()
 
   function handleDelete() {
@@ -13,14 +13,15 @@ export default function DeleteTaskButton({ id }: { id: string }) {
   }
 
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      className="text-red-500 hover:text-red-700 hover:bg-red-50 h-7 px-2"
+    <button
+      className={cn(
+        'text-red-400 bg-red-50 hover:bg-red-100 py-2 rounded-xl transition-colors text-[14px] font-semibold w-full',
+        className
+      )}
       onClick={handleDelete}
       disabled={pending}
     >
       {pending ? '…' : 'Delete'}
-    </Button>
+    </button>
   )
 }

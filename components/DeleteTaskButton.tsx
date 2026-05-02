@@ -15,7 +15,7 @@ export default function DeleteTaskButton({ id, className }: { id: string; classN
   return (
     <button
       className={cn(
-        'text-red-400 bg-red-50 hover:bg-red-100 py-2 rounded-xl transition-colors text-[14px] font-semibold w-full',
+        'text-gray-400 bg-gray-100 hover:bg-gray-200 py-2.5 rounded-2xl transition-colors text-[14px] font-bold w-full flex-1',
         className
       )}
       onClick={handleDelete}

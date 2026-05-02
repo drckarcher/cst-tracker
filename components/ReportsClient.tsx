@@ -192,10 +192,10 @@ export default function ReportsClient() {
     <div className="space-y-6">
       {/* Lifetime average — always visible */}
       {weeklyAvg !== null && (
-        <Card className="border-blue-200 bg-blue-50">
+        <Card className="border-orange-200 bg-orange-50">
           <CardContent className="pt-4 pb-4">
-            <p className="text-xs text-blue-600 uppercase tracking-wide font-medium">Avg per week (all time, Mon–Sun)</p>
-            <p className="text-3xl font-bold text-blue-700 mt-1">{weeklyAvg.toFixed(1)}h</p>
+            <p className="text-xs text-orange-500 uppercase tracking-wide font-medium">Avg per week (all time, Mon–Sun)</p>
+            <p className="text-3xl font-bold text-orange-500 mt-1">{weeklyAvg.toFixed(1)}h</p>
           </CardContent>
         </Card>
       )}

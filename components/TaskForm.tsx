@@ -50,7 +50,7 @@ function SubmitButton({ label }: { label: string }) {
     <button
       type="submit"
       disabled={pending}
-      className="flex-1 h-14 rounded-2xl bg-blue-500 hover:bg-blue-600 disabled:opacity-60 text-white text-[17px] font-bold transition-colors flex items-center justify-center gap-2"
+      className="flex-1 h-14 rounded-2xl bg-orange-400 hover:bg-orange-500 disabled:opacity-60 text-white text-[17px] font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
     >
       {pending ? (
         <>
@@ -190,7 +190,7 @@ export default function TaskForm({ task, action }: TaskFormProps) {
         <SubmitButton label={task ? 'Update Task' : 'Save Task'} />
         <Link
           href="/tasks"
-          className="h-14 px-6 rounded-2xl border-2 border-blue-200 text-blue-500 text-[17px] font-bold flex items-center justify-center transition-colors hover:bg-blue-50"
+          className="h-14 px-6 rounded-2xl border-2 border-orange-200 text-orange-400 text-[17px] font-bold flex items-center justify-center transition-colors hover:bg-orange-50"
         >
           Cancel
         </Link>
